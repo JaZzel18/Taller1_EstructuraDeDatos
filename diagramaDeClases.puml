@@ -1,0 +1,73 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+
+
+class Vehiculo {
+    - char patente[10]
+    - int idUsuario
+    - char modelo[50]
+    - double monto
+    - bool papelesAlDia
+    - bool tieneFalla
+    - char mensaje[450]
+    - Vehiculo* siguiente
+    --
+    + Vehiculo()
+    + Vehiculo(const char* p, int idU, const char* m, double mon, bool pap, bool falla, const char* msg)
+    + static desdeLineaCSV(const char* linea) : Vehiculo
+    + mostrar() const
+    + getPatente() : const char*
+    + getIdUsuario() : int
+    + getModelo() : const char*
+    + getMonto() : double
+    + getPapelesAlDia() : bool
+    + getTieneFalla() : bool
+    + getMensaje() : const char*
+    + getSiguiente() : Vehiculo*
+    + setSiguiente(Vehiculo* nodo)
+}
+class Usuario {
+    - int id
+    - char nombre[50]
+    - double reputacion
+    - int edad
+    - char correo[50]
+    - char clave[50]
+    --
+    + Usuario()
+    + Usuario(int _id, const char* _nombre, double _reputacion, int _edad, const char* _correo, const char* _clave)
+    + getId() : int
+    + getNombre() : const char*
+    + getCorreo() : const char*
+    + getClave() : const char*
+    + getReputacion() : double
+    + mostrar() : void
+    + static desdeLineaCSV(const char* linea) : Usuario
+}
+class Main {
+    --
+    + main() : int
+    + esCorreoValido(correo : const char*) : bool
+    + login(usuarios : Usuario*, nUsuarios : int, correo : const char*, clave : const char*) : int
+    + registrarUsuario(usuarios : Usuario*&, nUsuarios : int&, capacidad : int&) : Usuario
+    + mostrarTodo(usuarios : Usuario*, totalUsuarios : int, cabezaVehiculos : Vehiculo*) : void
+    + buscarUsuarioPorId(usuarios : Usuario*, totalUsuarios : int, idBuscado : int) : int
+    + esConsonante(c : char) : bool
+    + esPatenteValida(patente : string) : bool
+    + publicarVehiculo(idUsuarioActual : int, cabezaVehiculos : Vehiculo*&) : void
+    + mostrarUsuarioPorId(usuarios : Usuario*, totalUsuarios : int) : void
+    + eliminarUsuario(idUsuario : int, usuarios : Usuario*&, totalUsuarios : int&, cabezaVehiculos : Vehiculo*&) : void
+    + generarReporte(usuarios : Usuario*, totalUsuarios : int, cabezaVehiculos : Vehiculo*, totalRedimenciones : int) : void
+    + MenuPrincipal(usuarioActual : Usuario&, usuarios : Usuario*, cabezaVehiculos : Vehiculo*, totalUsuarios : int, totalRedimension : int) : void
+}
+
+
+Main --> Usuario
+Main --> Vehiculo
+
+Usuario "1" -- "0..*" Vehiculo : posee >
+Vehiculo "1" -- "1" Vehiculo : siguiente >
+
+
+@enduml
